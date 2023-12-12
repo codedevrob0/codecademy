@@ -68,6 +68,10 @@ nextRoundButton.addEventListener('click', () => {
   computerGuessDisplay.innerText = '?';
   computerWinsDisplay.innerText = '';
   guessButton.classList.remove('winning-text');
+
+  // Reset the add and subtract buttons to correct state
+  subtractButton.setAttribute('disabled', true);
+  addButton.removeAttribute('disabled');
 });
 
 const addButton = document.getElementById('add');
@@ -83,16 +87,37 @@ subtractButton.addEventListener('click', () => {
   handleValueChange(humanGuessInput.value);
 });
 
+//Old Code from Codecademy. This allowed numbers to go to 10 when specfied to guess numbers from 0 to 9.
+//When 10 was selected, on subsequent rounds the subtract button allowed it to go to negative numbers. This was fixed with some additional code to reset the state of the add and subtract buttons in the nextRoundButton.addEventListener section
+//
+// const handleValueChange = value => {
+//   if (value > 0 && value <= 9) {
+//     subtractButton.removeAttribute('disabled');
+//     addButton.removeAttribute('disabled');
+//   } else if (value >= 9) {
+//     addButton.setAttribute('disabled', true);
+//   } else if (value <= 0) {
+//     subtractButton.setAttribute('disabled', true);
+//   }
+// }
+
+//New Code
 const handleValueChange = value => {
-  if (value > 0 && value <= 9) {
+  if (value == 0) {
+    subtractButton.setAttribute('disabled', true);
+    addButton.removeAttribute('disabled');
+  } else if (value > 0 && value < 9) {
     subtractButton.removeAttribute('disabled');
     addButton.removeAttribute('disabled');
-  } else if (value = 9) {
+  } else if (value == 9) {
     addButton.setAttribute('disabled', true);
-  } else if (value <= 0) {
-    subtractButton.setAttribute('disabled', true);
+    subtractButton.removeAttribute('disabled');
   }
 }
+
+
+
+
 
 humanGuessInput.addEventListener('input', function (e) {
   handleValueChange(e.target.value);
